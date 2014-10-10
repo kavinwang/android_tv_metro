@@ -5,8 +5,10 @@ import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
@@ -19,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.VolleyHelper;
+import com.squareup.picasso.Picasso;
 import com.tv.ui.metro.R;
 import com.tv.ui.metro.model.DisplayItem;
 import com.tv.ui.metro.model.DisplayItem.UI;
@@ -150,7 +153,9 @@ public class RecommendCardView extends RelativeLayout {
 			view.setLayoutParams(layoutParams);
 		}
 
-		mImageLoader.get(image.url, ImageLoader.getImageListener(view, 0, 0));
+        Picasso.with(getContext()).load(image.url).into(view);
+
+		//mImageLoader.get(image.url, ImageLoader.getImageListener(view, 0, 0));
 	}
 
 	/**
@@ -276,8 +281,20 @@ public class RecommendCardView extends RelativeLayout {
 			return false;
 		}
 
-		mImageLoader.get(back.url, ImageLoader.getCommonViewImageListener(mBackView,
-				default_background_id, default_background_id));
+        if(Uri.parse(back.url).getHost().equals("localhost")){
+            String packagename = Uri.parse(back.url).getQueryParameter("package");
+            Drawable appIcon = null;
+            try {
+                appIcon = getContext().getPackageManager().getApplicationIcon(packagename);
+                mBackView.setImageDrawable(appIcon);
+            } catch (PackageManager.NameNotFoundException e) {
+                mBackView.setImageResource(default_background_id);
+            }
+        }
+        else {
+            Picasso.with(getContext()).load(back.url).placeholder(default_background_id).error(default_background_id).fit().into(mBackView);
+            //mImageLoader.get(back.url, ImageLoader.getCommonViewImageListener(mBackView,default_background_id, default_background_id));
+        }
 		return true;
 	}
 
@@ -347,7 +364,7 @@ public class RecommendCardView extends RelativeLayout {
 		public void onClick(View v) {
 			try {
 				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse("micontent://" + mItem.ns + "/" + mItem.type + "?rid="
+				intent.setData(Uri.parse("tvschema://" + mItem.ns + "/" + mItem.type + "?rid="
 						+ mItem.id));
 				intent.putExtra("item", mItem);
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

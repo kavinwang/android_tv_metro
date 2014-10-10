@@ -3,7 +3,7 @@
                 android:layout_width="match_parent"
                 android:background="@drawable/main_bg">
 
-    <com.xiaomi.mitv.app.view.TitleBar
+    <com.aimashi.store.app.view.TitleBar
             android:id="@+id/detail_title_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

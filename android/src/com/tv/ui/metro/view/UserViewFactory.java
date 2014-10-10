@@ -3,7 +3,7 @@ package com.tv.ui.metro.view;
 import android.content.Context;
 import android.view.View;
 import com.tv.ui.metro.R;
-import com.xiaomi.mitv.app.view.UserView;
+import com.aimashi.store.app.view.UserView;
 
 import java.util.ArrayList;
 

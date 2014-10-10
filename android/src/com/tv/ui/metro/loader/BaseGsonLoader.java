@@ -36,7 +36,6 @@ public abstract  class BaseGsonLoader<T> extends Loader<T> {
 
     protected       int page      = 1;
     protected final int page_size = 50;
-    
     protected          T       mResult;
     protected volatile boolean mIsLoading;
     private ProgressNotifiable mProgressNotifiable;

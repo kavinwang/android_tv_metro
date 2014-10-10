@@ -11,6 +11,7 @@ public class Tabs implements Serializable {
 	public ArrayList<Album> data;
 	public long             update_time;
     public Preload          preload;
+    public String           base_url;
 
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

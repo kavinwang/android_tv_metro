@@ -1,4 +1,4 @@
-package com.xiaomi.mitv.app.loader;
+package com.aimashi.store.app.loader;
 
 import android.content.Context;
 

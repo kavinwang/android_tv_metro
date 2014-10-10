@@ -1,5 +1,4 @@
-package com.xiaomi.mitv.app;
-
+package com.aimashi.store.app;
 
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
@@ -9,17 +8,18 @@ import com.tv.ui.metro.DisplayItemActivity;
 import com.tv.ui.metro.R;
 import com.tv.ui.metro.loader.ItemLoader;
 import com.tv.ui.metro.model.Item;
-import com.xiaomi.mitv.app.view.TitleBar;
+import com.aimashi.store.app.view.TitleBar;
 
 /**
- * Created by tv metro on 8/28/14.
+ * Created by tv metro on 9/1/14.
  */
-public class GameDetailActivity extends DisplayItemActivity implements LoaderManager.LoaderCallbacks<Item> {
+public class VideoDetailActivity extends DisplayItemActivity implements LoaderManager.LoaderCallbacks<Item>{
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.item_game_detail);
+        setContentView(R.layout.item_video_detail);
 
         TitleBar tb = (TitleBar) this.findViewById(R.id.detail_title_bar);
         tb.setTitle(item.name);
@@ -27,12 +27,13 @@ public class GameDetailActivity extends DisplayItemActivity implements LoaderMan
         tb.setBackPressListner(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GameDetailActivity.this.finish();
+                VideoDetailActivity.this.finish();
             }
         });
 
         getSupportLoaderManager().initLoader(ItemLoader.GAME_LOADER_ID, null, this);
     }
+
 
 
     @Override
@@ -41,13 +42,12 @@ public class GameDetailActivity extends DisplayItemActivity implements LoaderMan
     }
 
     @Override
-    public void onLoadFinished(Loader<Item> tabsLoader, Item tabs) {
+    public void onLoadFinished(Loader<Item> itemLoader, Item item) {
 
     }
 
     @Override
-    public void onLoaderReset(Loader<Item> tabsLoader) {
+    public void onLoaderReset(Loader<Item> itemLoader) {
 
     }
-
 }

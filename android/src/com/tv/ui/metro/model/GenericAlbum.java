@@ -13,7 +13,7 @@ public class GenericAlbum<T>  extends DisplayItem implements Serializable {
     public ArrayList<T> items;
 
     public String toString(){
-        return "\n\nAlbum: begin \tsort:"+sort + " \tpagi:"+pagi + super.toString() +" \n\titems:"+items + "\n\tend\n\n\n";
+        return "\n\nGenericAlbum: begin \tsort:"+sort + " \tpagi:"+pagi + super.toString() +" \n\titems:"+items + "\n\tend\n\n\n";
     }
 }
 

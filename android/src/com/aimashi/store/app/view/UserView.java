@@ -1,4 +1,4 @@
-package com.xiaomi.mitv.app.view;
+package com.aimashi.store.app.view;
 import android.app.Activity;
 import android.content.Context;
 import android.view.View;

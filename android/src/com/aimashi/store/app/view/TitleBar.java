@@ -1,4 +1,4 @@
-package com.xiaomi.mitv.app.view;
+package com.aimashi.store.app.view;
 
 import android.content.Context;
 import android.util.AttributeSet;

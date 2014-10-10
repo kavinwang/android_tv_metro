@@ -362,18 +362,20 @@ public class MetroLayout extends FrameLayout implements View.OnFocusChangeListen
     }
 
     public void focusMoveToLeft(){
-        mLeftView.requestFocus();
+        if(mLeftView != null)
+            mLeftView.requestFocus();
     }
 
     public void focusMoveToRight(){
-        mRightView.requestFocus();
+        if(mRightView != null)mRightView.requestFocus();
     }
 
     public void focusMoveToPreFocused(){
         if(lastFocusedView!=null){
             lastFocusedView.requestFocus();
         }else {
-            mLeftView.requestFocus();
+            if(mLeftView != null)
+                mLeftView.requestFocus();
         }
     }
 }

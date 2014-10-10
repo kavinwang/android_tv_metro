@@ -19,11 +19,11 @@ import com.tv.ui.metro.model.GenericAlbum;
 public class MetroFragment extends Fragment {
     private final String TAG = "MetroFragment";
 	public MetroLayout mMetroLayout;
-    SmoothHorizontalScrollView mHorizontalScrollView;
-	private int tab_count;
-	private int tab_index;
-    private GenericAlbum<DisplayItem> tab;
-    private boolean isUserTab = false;
+    protected SmoothHorizontalScrollView mHorizontalScrollView;
+    protected int tab_count;
+    protected int tab_index;
+    protected GenericAlbum<DisplayItem> tab;
+    protected boolean isUserTab = false;
 	
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,7 +41,7 @@ public class MetroFragment extends Fragment {
 
         //setScrollerTime(400);
 
-        tab = (GenericAlbum) this.getArguments().getSerializable("tab");
+        tab = (GenericAlbum<DisplayItem>) this.getArguments().getSerializable("tab");
         mHorizontalScrollView.setTabIndex(tab_index = getArguments().getInt("index", -1));
         mHorizontalScrollView.setTabCount(tab_count = getArguments().getInt("tab_count", -1));        
 

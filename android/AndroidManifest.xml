@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="15"
+        android:minSdkVersion="16"
         android:targetSdkVersion="16" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -29,25 +29,25 @@
             <intent-filter android:priority="-500">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:scheme="micontent" android:host="app" android:pathPrefix="/item"/>
-                <data android:scheme="micontent" android:host="game" android:pathPrefix="/item"/>
-                <data android:scheme="micontent" android:host="video" android:pathPrefix="/item"/>
+                <data android:scheme="tvschema" android:host="app" android:pathPrefix="/item"/>
+                <data android:scheme="tvschema" android:host="game" android:pathPrefix="/item"/>
+                <data android:scheme="tvschema" android:host="video" android:pathPrefix="/item"/>
             </intent-filter>
         </activity>
 
-        <activity android:name="com.xiaomi.mitv.app.ApplicationDetailActivity">
+        <activity android:name="com.aimashi.store.app.ApplicationDetailActivity">
             <intent-filter android:priority="-500">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:scheme="micontent" android:host="app"   android:pathPrefix="/item"/>
+                <data android:scheme="tvschema" android:host="app"   android:pathPrefix="/item"/>
             </intent-filter>
         </activity>
 
-        <activity android:name="com.xiaomi.mitv.app.GameDetailActivity">
+        <activity android:name="com.aimashi.store.app.GameDetailActivity">
             <intent-filter android:priority="-500">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:scheme="micontent" android:host="game"   android:pathPrefix="/item"/>
+                <data android:scheme="tvschema" android:host="game"   android:pathPrefix="/item"/>
             </intent-filter>
         </activity>
 
@@ -55,31 +55,31 @@
             <intent-filter android:priority="-500">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:scheme="micontent" android:host="app"   android:pathPrefix="/album"/>
-                <data android:scheme="micontent" android:host="game"   android:pathPrefix="/album"/>
-                <data android:scheme="micontent" android:host="video" android:pathPrefix="/album"/>
+                <data android:scheme="tvschema" android:host="app"   android:pathPrefix="/album"/>
+                <data android:scheme="tvschema" android:host="game"   android:pathPrefix="/album"/>
+                <data android:scheme="tvschema" android:host="video" android:pathPrefix="/album"/>
 
-                <data android:scheme="micontent" android:host="app"   android:pathPrefix="/category"/>
-                <data android:scheme="micontent" android:host="game"   android:pathPrefix="/category"/>
-                <data android:scheme="micontent" android:host="video" android:pathPrefix="/category"/>
+                <data android:scheme="tvschema" android:host="app"   android:pathPrefix="/category"/>
+                <data android:scheme="tvschema" android:host="game"   android:pathPrefix="/category"/>
+                <data android:scheme="tvschema" android:host="video" android:pathPrefix="/category"/>
             </intent-filter>
         </activity>
 
-        <activity android:name="com.xiaomi.mitv.app.GameAlbumActivity">
+        <activity android:name="com.aimashi.store.app.GameAlbumActivity">
             <intent-filter android:priority="-500">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:scheme="micontent" android:host="game"  android:pathPrefix="/album"/>
-                <data android:scheme="micontent" android:host="game"  android:pathPrefix="/category"/>
+                <data android:scheme="tvschema" android:host="game"  android:pathPrefix="/album"/>
+                <data android:scheme="tvschema" android:host="game"  android:pathPrefix="/category"/>
             </intent-filter>
         </activity>
 
-        <activity android:name="com.xiaomi.mitv.app.ApplicationAlbumActivity">
+        <activity android:name="com.aimashi.store.app.ApplicationAlbumActivity">
             <intent-filter android:priority="-500">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:scheme="micontent" android:host="app"  android:pathPrefix="/album"/>
-                <data android:scheme="micontent" android:host="app"  android:pathPrefix="/category"/>
+                <data android:scheme="tvschema" android:host="app"  android:pathPrefix="/album"/>
+                <data android:scheme="tvschema" android:host="app"  android:pathPrefix="/category"/>
             </intent-filter>
         </activity>
 

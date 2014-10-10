@@ -4,8 +4,8 @@ package com.tv.ui.metro.menu;
 import android.content.Context;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.ViewSwitcher.ViewFactory;
-import com.tv.ui.metro.view.TextViewWithTTF;
 
 public class TxtViewFactoryMaker
 {
@@ -62,7 +62,7 @@ public class TxtViewFactoryMaker
         @Override
         public View makeView()
         {
-            TextViewWithTTF res = new TextViewWithTTF(mContext, mTTF);
+            TextView res = new TextView(mContext);
             res.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTxtSize);
             res.setTextColor(mColor);
             res.setAlpha(mAlpha);
@@ -96,7 +96,7 @@ public class TxtViewFactoryMaker
         
         public View makeView()
         {
-            TextViewWithTTF res = (TextViewWithTTF) super.makeView();
+            TextView res = (TextView) super.makeView();
             res.setShadowLayer(mRadius, mOffsetY, mOffsetX, mShadowColor);
             return res;
         }

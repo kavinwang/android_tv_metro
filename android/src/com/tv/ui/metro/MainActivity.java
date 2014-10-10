@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -32,6 +33,8 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TabWidget;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -43,7 +46,7 @@ import com.tv.ui.metro.model.GenericSubjectItem;
 import com.tv.ui.metro.model.ImageGroup;
 import com.tv.ui.metro.utils.ViewUtils;
 import com.tv.ui.metro.view.*;
-import com.xiaomi.mitv.app.view.UserView;
+import com.aimashi.store.app.view.UserView;
 
 public class MainActivity extends FragmentActivity implements MainMenuMgr.OnMenuCancelListener , LoaderManager.LoaderCallbacks<GenericSubjectItem<DisplayItem>> {
     private final static String TAG = "TVMetro-MainActivity";
@@ -129,8 +132,7 @@ public class MainActivity extends FragmentActivity implements MainMenuMgr.OnMenu
                     mLoadingView.stopLoading(true, false);
                     //load test code for out of companny
                     Gson gson = new Gson();
-                    GenericSubjectItem<DisplayItem> fromJson = gson.fromJson(buildInData, new TypeToken<GenericSubjectItem<DisplayItem>>() {
-                    }.getType());
+                    GenericSubjectItem<DisplayItem> fromJson = gson.fromJson(buildInData, new TypeToken<GenericSubjectItem<DisplayItem>>(){}.getType());
 
                     updateTabsAndMetroUI(fromJson);
                     mTabHost.requestLayout();
@@ -162,37 +164,37 @@ public class MainActivity extends FragmentActivity implements MainMenuMgr.OnMenu
                 return;
             }
         }
+
         mTabs.removeAllViews();
         mViewPager.removeAllViews();
         mTabsAdapter = new TabsAdapter(this, mTabHost, mViewPager);
 
         addVideoTestData(content);
         _contents = content;
-
-
-        for(int i=0;i<content.data.size();i++) {
+        
+       for(int i=0;i<content.data.size();i++) {
             Bundle args = new Bundle();
             args.putSerializable("tab",     content.data.get(i));
-            args.putInt("index",            i);
-            args.putInt("tab_count",        content.data.size()+1);
+            args.putInt("index",            mTabs.getTabCount());
+            args.putInt("tab_count",        content.data.size()+(isNeedUserTab?1:0));
             
             //Log.d(TAG, content.tabs.get(i).toString());
 
-            mTabsAdapter.addTab(mTabHost.newTabSpec(content.data.get(i).name).setIndicator(newTabIndicator(content.data.get(i).name, i==0)),
+            mTabsAdapter.addTab(mTabHost.newTabSpec(content.data.get(i).name).setIndicator(newTabIndicator(content.data.get(i).name, mTabs.getTabCount() == 0)),
                         MetroFragment.class, args);
 
         }
 
         //for user fragment
-        if(isNeedUserTab && (albumItem == null || (albumItem != null && albumItem.ns.equals("home")))){
+        if(isNeedUserTab){
             Bundle args = new Bundle();
-            args.putInt("index",                content.data.size());
-            args.putInt("tab_count",            content.data.size()+1);
+            args.putInt("index",               mTabs.getTabCount());
+            args.putInt("tab_count",           content.data.size()+1);
             args.putBoolean("user_fragment", true);
-            mTabsAdapter.addTab(mTabHost.newTabSpec(mUserTabName).setIndicator(newTabIndicator(getString(R.string.user_tab), false)), mUserFragmentClass, args);
+            mTabsAdapter.addTab(mTabHost.newTabSpec(mUserTabName).setIndicator(newTabIndicator(getString(R.string.user_tab), mTabs.getTabCount() == 0)), mUserFragmentClass, args);
         }
-    }    
-    
+    }
+
     protected boolean isNeedUserTab = true;
     protected String mUserTabName = "";
     protected Class  mUserFragmentClass = null;
@@ -247,13 +249,11 @@ public class MainActivity extends FragmentActivity implements MainMenuMgr.OnMenu
         final String name = tabName;
         View viewC  = View.inflate(this, R.layout.tab_view_indicator_item, null);
 
-        TextViewWithTTF view = (TextViewWithTTF)viewC.findViewById(R.id.tv_tab_indicator);
+        TextView view = (TextView)viewC.findViewById(R.id.tv_tab_indicator);
         ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         view.setLayoutParams(lp);
-
-        mTabs.setPadding(getResources().getDimensionPixelSize(R.dimen.tab_left_offset), 0, 0, 0);
-
         view.setText(name);
+        mTabs.setPadding(getResources().getDimensionPixelSize(R.dimen.tab_left_offset), 0, 0, 0);
 
         if(focused == true){
             Resources res = getResources();
@@ -261,6 +261,7 @@ public class MainActivity extends FragmentActivity implements MainMenuMgr.OnMenu
             view.setTypeface(null, Typeface.BOLD);
             view.requestFocus();
         }
+
         return viewC;
     }
 
@@ -286,6 +287,7 @@ public class MainActivity extends FragmentActivity implements MainMenuMgr.OnMenu
     }
 
     protected void showStatusBar(Context context, boolean isShow){
+
     }
 
     @Override
@@ -347,9 +349,9 @@ public class MainActivity extends FragmentActivity implements MainMenuMgr.OnMenu
         }
 
         View view = getCurrentFocus();
-        isContentMoveLeft = (event.getAction() == KeyEvent.ACTION_DOWN && event.getKeyCode() == KeyEvent.KEYCODE_DPAD_LEFT && TextViewWithTTF.class.isInstance(view) == false);
+        isContentMoveLeft = (event.getAction() == KeyEvent.ACTION_DOWN && event.getKeyCode() == KeyEvent.KEYCODE_DPAD_LEFT && TextView.class.isInstance(view) == false);
 
-        if(event.getAction() == KeyEvent.ACTION_DOWN && (event.getKeyCode() == KeyEvent.KEYCODE_DPAD_LEFT || event.getKeyCode() == KeyEvent.KEYCODE_DPAD_RIGHT)&& TextViewWithTTF.class.isInstance(view) == true){
+        if(event.getAction() == KeyEvent.ACTION_DOWN && (event.getKeyCode() == KeyEvent.KEYCODE_DPAD_LEFT || event.getKeyCode() == KeyEvent.KEYCODE_DPAD_RIGHT)&& TextView.class.isInstance(view) == true){
 
             //already in left or right, no need do focus move
             if((event.getKeyCode() == KeyEvent.KEYCODE_DPAD_LEFT && mViewPager.getCurrentItem() == 0) || (event.getKeyCode() == KeyEvent.KEYCODE_DPAD_RIGHT && mViewPager.getCurrentItem() == mViewPager.getChildCount()-1)){
@@ -579,12 +581,12 @@ public class MainActivity extends FragmentActivity implements MainMenuMgr.OnMenu
             View viewC = tw.getChildTabViewAt(i);
             //Log.d(TAG, "tab width="+viewC.getWidth() + " left="+viewC.getLeft());
             if(i == index) {
-                TextViewWithTTF view = (TextViewWithTTF) viewC.findViewById(R.id.tv_tab_indicator);
+                TextView view = (TextView) viewC.findViewById(R.id.tv_tab_indicator);
                 Resources res = view.getResources();
                 view.setTextColor(res.getColor(android.R.color.white));
                 view.setTypeface(null, Typeface.BOLD);
             }else{
-                TextViewWithTTF view = (TextViewWithTTF) viewC.findViewById(R.id.tv_tab_indicator);
+                TextView view = (TextView) viewC.findViewById(R.id.tv_tab_indicator);
                 Resources res = view.getResources();
                 view.setTextColor(res.getColor(R.color.white_50));
                 view.setTypeface(null, Typeface.NORMAL);                        

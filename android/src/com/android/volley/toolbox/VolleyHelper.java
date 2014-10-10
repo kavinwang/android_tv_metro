@@ -21,7 +21,6 @@ public class VolleyHelper {
 	private RequestQueue mAPIRequestQueue, mImageLoaderRequestQueue;
 	private ImageLoader mImageLoader;
 	private static Context mCtx;
-    private boolean enabalCahce = false;
 
 	public static synchronized VolleyHelper getInstance(Context context) {
 		if (mInstance == null) {
@@ -36,53 +35,25 @@ public class VolleyHelper {
         mImageLoaderRequestQueue = getImageLoaderRequestQueue();
 
 		mImageLoader = new ImageLoader(mImageLoaderRequestQueue, new ImageLoader.ImageCache() {
-			private final LruCache<String, Bitmap> cache = new LruCache<String, Bitmap>(
-					IMAGE_CACHE_SIZE);
+            int maxMemory = (int) (Runtime.getRuntime().maxMemory()/1024);
+            int cacheSize = (int) ((maxMemory/8));
+
+            private final LruCache<String, Bitmap> cache = new LruCache<String, Bitmap>(cacheSize){
+                @Override
+                protected int sizeOf(String key, Bitmap bitmap) {
+                    return bitmap.getByteCount()/1024;
+                }
+            };
 
 			@Override
 			public Bitmap getBitmap(String url) {
                 Bitmap tmp =  cache.get(url);
-                if(tmp == null && enabalCahce){
-                    //get from local file
-                    String localFile = mCtx.getCacheDir().getAbsolutePath() + "/image/" + DiskBasedCache.getFilenameForKey(url);
-
-                    BitmapFactory.Options op = new BitmapFactory.Options();
-                    op.inJustDecodeBounds = true;
-                    BitmapFactory.decodeFile(localFile, op);
-                    op.inJustDecodeBounds = false;
-                    tmp = BitmapFactory.decodeFile(localFile, op);
-                }
                 return tmp;
 			}
 
 			@Override
 			public void putBitmap(String url, Bitmap bitmap) {
 				cache.put(url, bitmap);
-
-                //get from local file
-                if(enabalCahce) {
-                    String localFile = mCtx.getCacheDir().getAbsolutePath() + "/image/" + DiskBasedCache.getFilenameForKey(url);
-
-                    try {
-                        if (new File(mCtx.getCacheDir().getAbsolutePath() + "/image/").exists() == false)
-                            new File(mCtx.getCacheDir().getAbsolutePath() + "/image/").mkdirs();
-
-                        new File(localFile).createNewFile();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    //save to local
-                    Bitmap.CompressFormat cf = Bitmap.CompressFormat.PNG;
-                    if (url.endsWith(".jpg") || url.endsWith(".jpeg") || url.endsWith(".JPG") || url.endsWith(".JPEG")) {
-                        cf = Bitmap.CompressFormat.JPEG;
-                    }
-
-                    try {
-                        bitmap.compress(cf, 100, new FileOutputStream(new File(localFile)));
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                }
             }
 		});
 	}

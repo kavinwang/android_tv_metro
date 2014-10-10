@@ -1,4 +1,4 @@
-package com.xiaomi.mitv.app;
+package com.aimashi.store.app;
 
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
@@ -7,7 +7,7 @@ import android.view.View;
 import com.tv.ui.metro.AlbumActivity;
 import com.tv.ui.metro.R;
 import com.tv.ui.metro.model.Album;
-import com.xiaomi.mitv.app.view.TitleBar;
+import com.aimashi.store.app.view.TitleBar;
 
 /**
  * Created by tv metro on 9/1/14.
