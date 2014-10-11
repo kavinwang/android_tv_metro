@@ -18,7 +18,7 @@
         <activity
             android:name="com.aimashi.tv.store.app.AppMainActivity"
             android:label="@string/app_name"
-            android:icon="@drawable/icon_appstore" >
+            android:icon="@drawable/ic_launcher" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,7 +29,7 @@
          <activity
             android:name="com.aimashi.tv.store.game.GameMainActivity"
             android:label="@string/game_name"
-            android:icon="@drawable/icon_gamecenter" >
+            android:icon="@drawable/ic_launcher" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
