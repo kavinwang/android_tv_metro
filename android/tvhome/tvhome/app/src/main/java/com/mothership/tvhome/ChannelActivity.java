@@ -33,6 +33,7 @@ public class ChannelActivity extends MainActivity {
         View view = findViewById(R.id.back_arrow);
         view.setVisibility(View.VISIBLE);
     }
+    
     @Override
     protected void onPause() {
         super.onPause();
